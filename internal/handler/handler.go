@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"github.com/tank130701/url-shortener-back-end/pkg/services"
+	"github.com/tank130701/url-shortener-back-end/internal/services"
 	// "net/http"
 
 	"github.com/gin-gonic/gin"
@@ -9,11 +9,13 @@ import (
 
 type Handler struct {
 	services *services.Service
+	baseUrl string
 }
 
-func NewHandler(services *services.Service) *Handler {
+func NewHandler(services *services.Service, baseUrl string) *Handler {
 	return &Handler{
 		services: services,
+		baseUrl: baseUrl,
 	}
 }
 

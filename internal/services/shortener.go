@@ -3,14 +3,14 @@ package services
 import (
 	"math/rand"
 
-	"github.com/tank130701/url-shortener-back-end/pkg/repository"
+	"github.com/tank130701/url-shortener-back-end/internal/repository"
 )
 
 type UrlShortenerService struct{
-	repo repository.UrlShortener
+	repo repository.Storage
 }
 
-func NewUrlShortenerService(repo repository.UrlShortener) *UrlShortenerService{
+func NewUrlShortenerService(repo repository.Storage) *UrlShortenerService{
 	return &UrlShortenerService{repo: repo}
 }
 

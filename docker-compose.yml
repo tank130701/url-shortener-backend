@@ -1,17 +1,17 @@
 version: '3.8'
 
 services:
-  url-shortener:
-    build: ./
-    ports:
-      - 8000:8000
-    depends_on:
-      - db
-    environment:
-      - DB_PORT=6379
-      - DB_PASSWORD=""
-      - DB_HOST=db
-      - SERVER_PORT=8000
+  # url-shortener:
+  #   build: ./
+  #   ports:
+  #     - 8000:8000
+  #   depends_on:
+  #     - db
+  #   environment:
+  #     - DB_PORT=6379
+  #     - DB_PASSWORD=""
+  #     - DB_HOST=db
+  #     - SERVER_PORT=8000
   db:
     image: redis:latest
     ports:

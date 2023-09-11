@@ -1,4 +1,4 @@
-package repository
+package redis_storage
 
 import (
 	"context"

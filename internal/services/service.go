@@ -1,6 +1,6 @@
 package services
 
-import "github.com/tank130701/url-shortener-back-end/pkg/repository"
+import "github.com/tank130701/url-shortener-back-end/internal/repository"
 
 type UrlShortener interface{
 	CreateUrl(fullURL string)(string, error)
@@ -14,6 +14,6 @@ type Service struct{
 
 func NewService(repo *repository.Repository) *Service {
 	return &Service{
-		UrlShortener: NewUrlShortenerService(repo.UrlShortener),
+		UrlShortener: NewUrlShortenerService(repo.Storage),
 	}
 }

@@ -1,4 +1,4 @@
-package repository
+package redis_storage
 
 import (
 	"time"
@@ -6,18 +6,21 @@ import (
 	"github.com/redis/go-redis/v9"
 )
 
-type SaveUrl struct{
+type RedisStorage struct{
 	rdb *redis.Client
 }
 
-func NewSaveUrl(rdb *redis.Client) *SaveUrl {
-	return &SaveUrl{rdb: rdb}
+func NewRedisStorage(rdb *redis.Client) *RedisStorage {
+	return &RedisStorage{rdb: rdb}
 }
 
-func(r *SaveUrl) SaveShortUrl(shortURL, fullURL string) error {
-	ctx := context.Background()
+var ctx = context.Background()
+
+func(r *RedisStorage) SaveShortUrl(shortURL, fullURL string) error {
+	
 	// Установка ключа "короткая ссылка" и значения "полная ссылка" в Redis.
 	// Устанавливаем срок хранения в один час (например).
+	// checkUrl := r.rdb.
 	err := r.rdb.Set(ctx, shortURL, fullURL, time.Hour).Err()
 	if err != nil {
 		return err
@@ -25,8 +28,9 @@ func(r *SaveUrl) SaveShortUrl(shortURL, fullURL string) error {
 	return nil
 }
 
-func(r *SaveUrl) GetFullUrl(shortURL string) (string, error) {
-	ctx := context.Background()
+
+
+func(r *RedisStorage) GetFullUrl(shortURL string) (string, error) {
 	value, err := r.rdb.Get(ctx, shortURL).Result()
 	if err != nil {
 		return "", err 
