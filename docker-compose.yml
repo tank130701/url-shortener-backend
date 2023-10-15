@@ -12,6 +12,7 @@ services:
   #     - DB_PASSWORD=""
   #     - DB_HOST=db
   #     - SERVER_PORT=8000
+  #     - DOMAIN=localhost:8000
   db:
     image: redis:latest
     ports:

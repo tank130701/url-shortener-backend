@@ -1,8 +1,10 @@
 package redis_storage
 
 import (
-	"time"
 	"context"
+	"fmt"
+	"time"
+
 	"github.com/redis/go-redis/v9"
 )
 
@@ -23,7 +25,7 @@ func(r *RedisStorage) SaveShortUrl(shortURL, fullURL string) error {
 	// checkUrl := r.rdb.
 	err := r.rdb.Set(ctx, shortURL, fullURL, time.Hour).Err()
 	if err != nil {
-		return err
+		return fmt.Errorf("error saving url in database: %w", err)
 	}
 	return nil
 }
@@ -33,7 +35,7 @@ func(r *RedisStorage) SaveShortUrl(shortURL, fullURL string) error {
 func(r *RedisStorage) GetFullUrl(shortURL string) (string, error) {
 	value, err := r.rdb.Get(ctx, shortURL).Result()
 	if err != nil {
-		return "", err 
+		return "", fmt.Errorf("error getting url from database: %w", err)
 	}
 	return value, nil
 }

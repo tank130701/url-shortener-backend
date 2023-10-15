@@ -5,8 +5,8 @@ import (
 	"errors"
 	"fmt"
 
-	// "github.com/mattn/go-sqlite3"
-	_ "github.com/mattn/go-sqlite3"
+	"github.com/mattn/go-sqlite3"
+	// _ "github.com/mattn/go-sqlite3"
 )
 
 type SqliteStorage struct {
@@ -22,29 +22,33 @@ var (
 	ErrURLExists   = errors.New("url exists")
 )
 
-func (s *SqliteStorage) SaveShortUrl(shortURL, fullURL string) error {
-	// // Вставляем данные в таблицу
-	// const op = "storage.sqlite.SaveURL"
-	fmt.Println(shortURL, fullURL)
-	// stmt, err := s.db.Prepare("INSERT INTO urls(alias, fullurl) VALUES(?, ?)")
-	// if err != nil {
-	// 	return fmt.Errorf("%s: %w", op, err)
-	// }
-	// fmt.Println(shortURL, fullURL)
-	// _, err = stmt.Exec(shortURL, fullURL)
-	// if err != nil {
-	// 	if sqliteErr, ok := err.(sqlite3.Error); ok && sqliteErr.ExtendedCode == sqlite3.ErrConstraintUnique {
-	// 		return fmt.Errorf("%s: %w", op, ErrURLExists)
-	// 	}
+// func (s *SqliteStorage) SaveShortUrl(urlToSave string, alias string) (int64, error) {
+func (s *SqliteStorage) SaveShortUrl(urlToSave string, alias string)error {
+	const op = "storage.sqlite.SaveURL"
 
-	// 	return fmt.Errorf("%s: %w", op, err)
-	// }
-	// return nil
-	_, err := s.db.Exec("INSERT INTO urls (alias, fullurl) VALUES (?, ?)",
-	shortURL, fullURL)
+	stmt, err := s.db.Prepare("INSERT INTO url(url, alias) VALUES(?, ?)")
 	if err != nil {
-		return fmt.Errorf("error while inserting in databse: %w", err)
+		// return 0, fmt.Errorf("%s: %w", op, err)
+		return fmt.Errorf("%s: %w", op, err)
 	}
+
+	_, err = stmt.Exec(urlToSave, alias)
+	if err != nil {
+		if sqliteErr, ok := err.(sqlite3.Error); ok && sqliteErr.ExtendedCode == sqlite3.ErrConstraintUnique {
+			// return 0, fmt.Errorf("%s: %w", op, ErrURLExists)
+			return fmt.Errorf("%s: %w", op, ErrURLExists)
+		}
+
+		// return 0, fmt.Errorf("%s: %w", op, err)
+		return fmt.Errorf("%s: %w", op, err)
+	}
+
+	// id, err := res.LastInsertId()
+	// if err != nil {
+	// 	return 0, fmt.Errorf("%s: failed to get last insert id: %w", op, err)
+	// }
+
+	// return id, nil
 	return nil
 }
 

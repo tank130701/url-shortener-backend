@@ -30,7 +30,7 @@ func main(){
 
 
 	services := services.NewService(repo)
-	handlers := handler.NewHandler(services, os.Getenv("DOMAIN") )
+	handlers := handler.NewHandler(services, os.Getenv("DOMAIN"))
 
 	srv := new(app.App)
 	go func() {

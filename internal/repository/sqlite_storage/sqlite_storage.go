@@ -1,7 +1,10 @@
 package sqlite_storage
-import(
-	"log"
+
+import (
 	"database/sql"
+	"fmt"
+	"log"
+
 	_ "github.com/mattn/go-sqlite3"
 )
 
@@ -22,7 +25,7 @@ func NewSqliteDB(storagePath string)(*sql.DB, error){
 		CREATE INDEX IF NOT EXISTS idx_alias ON urls(alias);
 	`)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("error creating database: %w", err)
 	}
 	return db, nil
 }

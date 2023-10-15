@@ -21,10 +21,13 @@ func NewRedisDB(cfg Config)(*redis.Client, error){
 		Password: cfg.Password, // no password set
 		DB:		  cfg.DB,  // use default DB
 	})
-	pong, err := rdb.Ping(ctx).Result()
+
+	// pong, err := rdb.Ping(ctx).Result()
+	_, err := rdb.Ping(ctx).Result()
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("error connecting to Redis: %w", err) 
 	}
-	fmt.Println("Подключение к Redis успешно:", pong)
+
+	// fmt.Println("Подключение к Redis успешно:", pong)
 	return rdb, nil
 }

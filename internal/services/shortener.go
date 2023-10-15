@@ -1,6 +1,7 @@
 package services
 
 import (
+	"fmt"
 	"math/rand"
 
 	"github.com/tank130701/url-shortener-back-end/internal/repository"
@@ -18,7 +19,7 @@ func (s *UrlShortenerService) CreateUrl(fullURL string)(string, error){
 	shortUrl := generateShortURL()
 	err := s.repo.SaveShortUrl(shortUrl, fullURL)
 	if err != nil{
-		return "", err
+		return "", fmt.Errorf("error creating url: %w", err)
 	}
 	return shortUrl, nil
 }
